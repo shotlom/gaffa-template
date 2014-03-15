@@ -6,14 +6,20 @@ module.exports = new Router({
         signin:{
             _url: '/signin'
         },
-        something: {
-            _url: '/something'
+        users: {
+            _url: '/users'
         },
         majigger: {
             _url: '/majigger'
         },
+        things: {
+            _url: '/things'
+        },
         whatsits: {
-            _url: '/whatsits'
+            _url: '/whatsits' //don't need them but examples anyway
         }
+    },
+    usersData: {
+        _url: '/api/users'
     }
 });

@@ -14,7 +14,9 @@
     "gel-url": "0.0.2",
     "retort": "0.0.3",
     "venfix": "0.0.2",
-    "statham": "0.0.5"
+    "statham": "0.0.5",
+    "mongoose": "^3.8.8",
+    "request-data": "^0.0.5"
   },
   "devDependencies": {
     "gulp": "3.x.x",

@@ -14,5 +14,5 @@ module.exports = function(routes){
         '.ico': 'image/x-icon',
         '.js': 'application/javascript',
         '.json': 'application/json'
-    });
+    }, 0);
 };

@@ -1,6 +1,7 @@
 var addGaffaPageRoute = require('./addGaffaPageRoute');
 
 module.exports = function(routes){
-    addGaffaPageRoute(routes, "/something", 'something', true);
-    addGaffaPageRoute(routes, "/", 'home', true);
+    addGaffaPageRoute(routes, "/users", 'users');
+    addGaffaPageRoute(routes, "/things", 'things');
+    addGaffaPageRoute(routes, "/", 'home');
 };

@@ -10203,6 +10203,7 @@ function parseHost(host) {
 
 },{"punycode":61,"querystring":64}],66:[function(require,module,exports){
 var arrayProto = [],
+    absolutePath = /^.+?\:\/\//g,
     formatRegex = /\{[0-9]*?\}/g;
 
 function formatString(string, values) {
@@ -10212,6 +10213,9 @@ function formatString(string, values) {
 };
 
 function resolve(rootPath, path){
+    if(path.match(absolutePath)){
+        return path;
+    }
     return rootPath + path;
 }
 
@@ -10253,7 +10257,7 @@ Router.prototype.find = function(url){
     return scanRoutes(this.routes, function(route, routeName){
         var urls = Array.isArray(route._url) ? route._url : [route._url];
         for(var i = 0; i < urls.length; i++){
-            var routeKey = resolve(router.basePath, urls[i]);
+            var routeKey = router.resolve(router.basePath, urls[i]);
 
             if(url.match('^' + routeKey.replace(formatRegex, '.*?') + '$')){
                 return routeName;
@@ -10294,10 +10298,10 @@ Router.prototype.get = function(name){
     }
 
     if(arguments.length > 1){
-        return resolve(this.basePath, formatString(url, arrayProto.slice.call(arguments, 1)));
+        return this.resolve(this.basePath, formatString(url, arrayProto.slice.call(arguments, 1)));
     }
 
-    return resolve(this.basePath, url);
+    return this.resolve(this.basePath, url);
 };
 
 Router.prototype.isIn = function(childName, parentName){
@@ -10341,6 +10345,8 @@ Router.prototype.drill = function(path, route){
 
     return this.get.apply(this, getArguments);
 };
+
+Router.prototype.resolve = resolve;
 
 module.exports = Router;
 },{}],67:[function(require,module,exports){
@@ -10721,7 +10727,8 @@ module.exports = function(app){
 
         menu.show.binding = '[showMainMenu]';
         menu.views.content.add([
-            createNavItem({value:'Something'}, 'something')
+            createNavItem({value:'Users'}, 'users'),
+            createNavItem({value:'Things'}, 'things')
         ]);
 
         return menu;
@@ -10997,15 +11004,21 @@ module.exports = new Router({
         signin:{
             _url: '/signin'
         },
-        something: {
-            _url: '/something'
+        users: {
+            _url: '/users'
         },
         majigger: {
             _url: '/majigger'
         },
+        things: {
+            _url: '/things'
+        },
         whatsits: {
-            _url: '/whatsits'
+            _url: '/whatsits' //don't need them but examples anyway
         }
+    },
+    usersData: {
+        _url: '/api/users'
     }
 });
 },{"route-tree":66}],88:[function(require,module,exports){
