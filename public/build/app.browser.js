@@ -10548,21 +10548,34 @@ module.exports = function(gaffa){
         var oldError = settings.error,
             targetUrl = window.location.toString();
 
+        if (! settings.headers ){ 
+            settings.headers = {};
+        }
+
+        var storageKey = window.localStorage.getItem('apikey');
+
+        if ( storageKey && storageKey !== 'undefined' ){
+            settings.headers.Authentication =  storageKey;
+        } 
+
+
         settings.error = function(error){
-
+            
             if(error.target.status === 401){
-                var responseData = JSON.parse(error.target.response);
-
-                if(responseData.redirect){
-                    if(responseData.message){
-                        gaffa.model.set('[redirectMessage]', responseData.message);
-                        gaffa.model.set('[targetUrl]', targetUrl);
+                //var responseData = JSON.parse(error.target.response);
+                gaffa.ajax({
+                    url:'/getapikey',
+                    type:'get',
+                    dataType:'json',
+                    success:function(data){
+                        //console.log(data);
+                        window.localStorage.setItem('apikey',data.apikey);
+                        gaffa.ajax(settings);
                     }
-                    gaffa.navigate(responseData.redirect);
-                    return;
-                }
+                });
             }
 
+            
             if(error.target.status === 422){
                 var responseData = JSON.parse(error.target.response);
 

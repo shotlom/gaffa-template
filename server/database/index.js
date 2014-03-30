@@ -11,5 +11,9 @@ dbObject.connection = mongoose.connect(config.mongooseConnection)
 
 dbObject.User = require('./schemas/user');
 
+
+dbObject.Application = require('./schemas/application');
+
+
 module.exports = dbObject;
 
